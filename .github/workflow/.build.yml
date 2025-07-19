@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04  # ✅ Stable Ubuntu version
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout source code
@@ -16,22 +16,30 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'  # ✅ Make sure it's in quotes
+          python-version: '3.10'
 
       - name: Install system dependencies
         run: |
           sudo apt update
           sudo apt install -y \
             python3-pip \
+            python3-setuptools \
+            python3-wheel \
             openjdk-17-jdk \
             zip unzip \
             git \
-            libncurses5
+            libncurses5 \
+            libffi-dev \
+            libssl-dev
 
       - name: Install Buildozer
         run: |
           pip install --upgrade pip
           pip install buildozer cython
+
+      - name: Check for buildozer.spec
+        run: |
+          if [ ! -f buildozer.spec ]; then echo "Missing buildozer.spec!"; exit 1; fi
 
       - name: Build APK with Buildozer
         run: |
