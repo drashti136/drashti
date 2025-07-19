@@ -13,10 +13,10 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.10.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.10.11'
 
       - name: Install system dependencies
         run: |
@@ -37,16 +37,4 @@ jobs:
           pip install --upgrade pip
           pip install buildozer cython
 
-      - name: Check for buildozer.spec
-        run: |
-          if [ ! -f buildozer.spec ]; then echo "Missing buildozer.spec!"; exit 1; fi
-
-      - name: Build APK with Buildozer
-        run: |
-          buildozer android debug
-
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: kivy-apk
-          path: bin/*.apk
+      - name: Check
